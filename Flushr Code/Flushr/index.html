@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+	<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+  <head>
+	<title>Flushr</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<link href="index.css" rel="stylesheet" type="text/css" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="https://maps.googleapis.com/maps/api/js"></script>
+	<script>
+		function initialize(){
+			var mapCanvas = document.getElementById('map');
+			var mapOptions = {
+				center: new google.maps.LatLng(42.4476, -76.4827),
+				zoom: 15,
+				mapTypeId: google.maps.MapTypeId.ROADMAP,
+				mapTypeControl: false
+			}
+			var map = new google.maps.Map(mapCanvas, mapOptions);
+			var marker = new google.maps.Marker( {
+				position: new google.maps.LatLng(42.4497, -76.4816),
+				map: map,
+				title: '#162: Make a Blog About the 161',
+			});
+		}
+		google.maps.event.addDomListener(window, 'load', initialize);
+	</script>
+  </head>
+  
+  <body>
+	<div id="header">
+		<button type="button" id="menu"><img src="menu.png" /></button>
+		<img src="logo.png" id="logo" />
+	</div>
+	<div id="main">
+		<div id="map">
+		
+		</div>
+	</div>
+  </body>
+</html>
