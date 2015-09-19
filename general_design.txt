@@ -1,0 +1,12 @@
+General Design Document
+//Edited by Luebbers at 2:35 Saturday
+
+A bathroom object has...
+  name: string
+  building: string
+  star rating: float
+  gender ('M','F','U'): character
+  number of stalls: int
+  number of urinals (conditional): int
+  number of epiphanies: int
+  epiphanies/general comments: array of strings
