@@ -50,10 +50,7 @@
 				query.equalTo("Name", t);
 				query.find({
 					success: function(building) {
-						localStorage.building = JSON.stringify(building);
-						building = JSON.parse(localStorage.building);
-						var bathroomArray = building[0].BathroomArray;
-						localStorage.brooms = JSON.stringify(bathroomArray);
+						writeToLeft(building);
 					}
 				});
 				document.getElementById("left_sidebar").style.width = "500px";
@@ -63,8 +60,28 @@
 		google.maps.event.addDomListener(window, 'load', initialize);
 		
 		// Writes information to the sidebar upon selection of a point.
-		function writeToLeft() {
-			
+		function writeToLeft(building) {
+			//var bathrooms = JSON.parse(localStorage.brooms);
+			//delete localStorage.brooms;
+			building = JSON.parse(JSON.stringify(building));
+			var bathrooms = building[0].BathroomArray;
+			var num_bathrooms = bathrooms.length;
+			var average_rating = 0;
+			var arr = [];
+			for(i = 0; i < num_bathrooms; i++) {
+				var Bathroom = Parse.Object.extend("Bathroom");
+				var query = new Parse.Query(Bathroom);
+				query.get(bathrooms[i], {
+					success: function(bathroom) {
+						var bath = JSON.parse(JSON.stringify(bathroom));
+						arr.push(bath);
+						average_rating += bath.Stars;
+					}
+				});
+				alert(average_rating);
+			}
+			average_rating = average_rating / num_bathrooms;
+			alert("after" + average_rating);
 		}
 		
 		// Increases the left sidebar
