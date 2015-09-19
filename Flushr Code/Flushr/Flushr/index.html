@@ -35,10 +35,12 @@
 		}
 		
 		function createMarker(pos, t, m) {
+			var image= 'bluedot.png';
 			var marker = new google.maps.Marker({
 				position: pos,
 				map: m,
-				title: t
+				title: t,
+				icon: image,
 			});
 			google.maps.event.addListener(marker, 'click', function() {
 				document.getElementById("left_sidebar").style.width = "500px";
