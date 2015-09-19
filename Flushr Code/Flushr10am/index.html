@@ -18,24 +18,33 @@
 				mapTypeControl: false
 			}
 			var map = new google.maps.Map(mapCanvas, mapOptions);
+			//var dict = {};
 			Parse.initialize("GsttxbbcF21KkzLiXBBmGk3s1sHnScQx3sLRp7nP", "FJnL6Ip6hsuebnCPPpSglUxT3qAFKvOHQTBW5YQ1");
 			var Building = Parse.Object.extend("Building");
-			var query = new Parse.Query("Building");
+			var query = new Parse.Query(Building);
 			query.exists("Name");
 			query.find({
 				success: function(buildings) {
 					localStorage.buildings = JSON.stringify(buildings);
 					bb = JSON.parse(localStorage.buildings);
-					for(i = 0; i < bb.length; i++) {
+					console.log(bb);
+					for(i=0; i < bb.length; i++){
 						var lat = bb[i].Coordinates.latitude;
 						var longi = bb[i].Coordinates.longitude;
 						var name = bb[i].Name;
 						createMarker(new google.maps.LatLng(lat, longi), name, map);
 					}
+				}	
+			});
+			var Bathroom = Parse.Object.extend("Bathroom");
+			var query2 = new Parse.Query(Bathroom);
+			query2.exists("Name");
+			query2.find({
+				success: function(bathrooms) {
+					localStorage.bathrooms = JSON.stringify(bathrooms);
 				}
 			});
-		}
-		
+			}
 		function createMarker(pos, t, m) {
 			var image='blue-dot.png'
 			var marker = new google.maps.Marker({
@@ -45,63 +54,74 @@
 				icon: image
 			});
 			google.maps.event.addListener(marker, 'click', function() {
-				var Building = Parse.Object.extend("Building");
-				var query = new Parse.Query(Building);
-				query.equalTo("Name", t);
-				query.find({
-					success: function(building) {
-						writeToLeft(building);
+				var building_of_pin = null;
+				var building_array = JSON.parse(localStorage.buildings);
+				console.log(building_array);
+				for(i = 0; i < building_array.length; i++) {
+					var name = building_array[i].Name;
+					if(name == t) {
+						building_of_pin = building_array[i];
+						break;
 					}
-				});
-				document.getElementById("left_sidebar").style.width = "500px";
+					else {
+						building_of_pin = building_array[0];
+					}
+				}
+				var bathroom_array = JSON.parse(localStorage.bathrooms);
+				var baths_of_building = [];
+				for(i = 0; i < bathroom_array.length; i++) {
+					console.log(bathroom_array[i]);
+					if(bathroom_array[i].Building == building_of_pin.Name) {
+						baths_of_building.push(bathroom_array[i]);
+					}
+				}
+				
+				// Display in left sidebar
+				html = "";
+				html += '<div class="building"><p class="buildingname">'+building_of_pin.Name+'</p></div>';
+				for(i = 0; i < baths_of_building.length; i++) {
+					html += '<div class="bathroom"><p class="bathroom">'+baths_of_building[i].Name+'</p></div>';
+				}
+				document.getElementById("left_sidebar").innerHTML = html;
 			});
 			return marker;
 		}
 		google.maps.event.addDomListener(window, 'load', initialize);
 		
-		// Writes information to the sidebar upon selection of a point.
-		function writeToLeft(building) {
-			//var bathrooms = JSON.parse(localStorage.brooms);
-			//delete localStorage.brooms;
-			building = JSON.parse(JSON.stringify(building));
-			var bathrooms = building[0].BathroomArray;
-			var num_bathrooms = bathrooms.length;
-			var average_rating = 0;
-			var arr = [];
-			for(i = 0; i < num_bathrooms; i++) {
-				var Bathroom = Parse.Object.extend("Bathroom");
-				var query = new Parse.Query(Bathroom);
-				query.get(bathrooms[i], {
+		var holdUp = function(building) {
+		  var promise = new Parse.Promise();
+		  //loadBathrooms(building);
+		  //promise.resolve();
+		  var array = building[0].BathroomArray;
+		  getBrooms(array).then(function() {
+				localStorage.building = JSON.stringify(building);
+		  });
+		  promise.resolve();
+		  return promise;
+		};
+
+		var getBrooms = function(array) {
+			var promise = new Parse.Promise();
+			var Bathroom = Parse.Object.extend("Bathroom");
+			var query = new Parse.Query(Bathroom);
+			for(i = 0; i < array.length; i++) {
+				query.get(array[i], {
 					success: function(bathroom) {
 						var bath = JSON.parse(JSON.stringify(bathroom));
-						arr.push(bath);
-						average_rating += bath.Stars;
+						array.push(bath);
+						console.log(JSON.stringify(bath));
+						localStorage.brooms = JSON.stringify(array);
 					}
 				});
-				alert(average_rating);
 			}
-			average_rating = average_rating / num_bathrooms;
-			alert("after" + average_rating);
+			promise.resolve();
+			return promise;
 		}
 		
 		// Increases the left sidebar
 		function increaseLeft() {
 			var str = i.toString().concat("px");
 			document.getElementById("left_sidebar").style.width = str;
-		}
-		
-		// Accesses the stuff of a bathroom
-		function bathroomGetter() {
-			var build = JSON.parse(localStorage.buildings)[4];
-			alert(build.Name);
-			var bath = build[0];
-			var Bathroom = Parse.Object.extend("Bathroom");
-			var query = new Parse.Query(Bathroom);
-			query.get("ubOduwjOQq", {
-				success: function(bathr) {
-					alert(bathr.Name);
-				}
-			});
 		}
 	</script>
   </head>
