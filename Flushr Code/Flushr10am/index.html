@@ -18,62 +18,87 @@
 				mapTypeControl: false
 			}
 			var map = new google.maps.Map(mapCanvas, mapOptions);
-			createMarker(new google.maps.LatLng(42.4497, -76.4816), "Title", map);
 			Parse.initialize("GsttxbbcF21KkzLiXBBmGk3s1sHnScQx3sLRp7nP", "FJnL6Ip6hsuebnCPPpSglUxT3qAFKvOHQTBW5YQ1");
-			
 			var Building = Parse.Object.extend("Building");
-			
-			var query = new Parse.Query(Building);
-			
+			var query = new Parse.Query("Building");
 			query.exists("Name");
-			
 			query.find({
 				success: function(buildings) {
 					localStorage.buildings = JSON.stringify(buildings);
+					bb = JSON.parse(localStorage.buildings);
+					for(i = 0; i < bb.length; i++) {
+						var lat = bb[i].Coordinates.latitude;
+						var longi = bb[i].Coordinates.longitude;
+						var name = bb[i].Name;
+						createMarker(new google.maps.LatLng(lat, longi), name, map);
+					}
 				}
 			});
 		}
 		
 		function createMarker(pos, t, m) {
-			var image= 'bluedot.png';
+			var image='blue-dot.png'
 			var marker = new google.maps.Marker({
 				position: pos,
 				map: m,
 				title: t,
-				icon: image,
+				icon: image
 			});
 			google.maps.event.addListener(marker, 'click', function() {
+				var Building = Parse.Object.extend("Building");
+				var query = new Parse.Query(Building);
+				query.equalTo("Name", t);
+				query.find({
+					success: function(building) {
+						writeToLeft(building);
+					}
+				});
 				document.getElementById("left_sidebar").style.width = "500px";
 			});
 			return marker;
 		}
 		google.maps.event.addDomListener(window, 'load', initialize);
 		
-		// Pulls the data from Parse and stores it in a local array
-		function ParseInitialize() {
-
-		} 
-		
-		// Increases the left sidebar
-		function increaseLeft(i) {
-			var str = i.toString().concat("px");
-			document.getElementById("left_sidebar").style.width = str;
+		// Writes information to the sidebar upon selection of a point.
+		function writeToLeft(building) {
+			//var bathrooms = JSON.parse(localStorage.brooms);
+			//delete localStorage.brooms;
+			building = JSON.parse(JSON.stringify(building));
+			var bathrooms = building[0].BathroomArray;
+			var num_bathrooms = bathrooms.length;
+			var average_rating = 0;
+			var arr = [];
+			for(i = 0; i < num_bathrooms; i++) {
+				var Bathroom = Parse.Object.extend("Bathroom");
+				var query = new Parse.Query(Bathroom);
+				query.get(bathrooms[i], {
+					success: function(bathroom) {
+						var bath = JSON.parse(JSON.stringify(bathroom));
+						arr.push(bath);
+						average_rating += bath.Stars;
+					}
+				});
+				alert(average_rating);
+			}
+			average_rating = average_rating / num_bathrooms;
+			alert("after" + average_rating);
 		}
 		
-		//mouse event changes cursor to hand pointer
-		function changeCursor(){
-			
+		// Increases the left sidebar
+		function increaseLeft() {
+			var str = i.toString().concat("px");
+			document.getElementById("left_sidebar").style.width = str;
 		}
 		
 		// Accesses the stuff of a bathroom
 		function bathroomGetter() {
 			var build = JSON.parse(localStorage.buildings)[4];
+			alert(build.Name);
 			var bath = build[0];
 			var Bathroom = Parse.Object.extend("Bathroom");
 			var query = new Parse.Query(Bathroom);
 			query.get("ubOduwjOQq", {
 				success: function(bathr) {
-					alert("asfasd");
 					alert(bathr.Name);
 				}
 			});
