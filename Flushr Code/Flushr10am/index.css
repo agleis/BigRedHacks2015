@@ -158,27 +158,26 @@ button{
 }
 
 #left_sidebar {
-	width: 80px;
-	height: 120px;
+	width: 0px;
+	height: 140px;
 	
-	-webkit-transition: -webkit-transform 400ms ease;
-	-moz-transition: -moz-transform 400ms ease;
-	-o-transition: -o-transform 400ms ease;
-	transition: transform 400ms ease;
-	
-	-webkit-transition-property: all;
+	border-right: 1px solid #404040;
 }
 
 #left_top {
-
+	height: 140px;
+	width: 0px;
+	border-bottom: 1px solid #404040;
 }
 
 #left_main {
-
+	
 }
 
 #left-title {
-
+	width: 0px;
+	height: 140px;
+	border-left: 1px solid #404040;
 }
 
 #building {
@@ -209,17 +208,25 @@ button{
 	font-size: 32px;
 }
 
-.average {
+.av {
 	font-size: 16px;
+	padding-right: 10px;
 }
 
 .num {
 	font-size: 16px;
+	padding-left: 10px;
+	border-left: 1px solid #AAAAAA;
 }
 
 .bathrooms {
 	top: 0px;
 	left: 0px;
+	
+	text-align: left;
+	font-size: 32px;
+	
+	border-bottom: 1px solid #404040;
 	
 	-webkit-transition: -webkit-transform 400ms ease;
 	-moz-transition: -moz-transform 400ms ease;
@@ -238,4 +245,19 @@ button{
 	transition: transform 400ms ease;
 	
 	-webkit-transition-property: all;
+}
+
+a:link {
+	color: #404040;
+	text-decoration: none;
+}
+
+a:visited {
+	color: #797979;
+	text-decoration: none;
+}
+
+a:hover {
+	background-color: #E4E4E4;
+	text-decoration: bold;
 }

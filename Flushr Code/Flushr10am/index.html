@@ -83,7 +83,7 @@
 				// Display in left sidebar
 				htmltitle = "";
 				htmlbrooms = "";
-				htmltitle += '<div id="building"><p class="buildingname">'+building_of_pin.Name+'</p><p class="average">'+'Average Rating: '+average_rating+'</p><p class="num">'+"Number of bathrooms: "+num_bathrooms+'</p></div>';
+				htmltitle += '<div id="building"><p class="buildingname">'+building_of_pin.Name+'</p><p class="average"><span class="av">'+'Average Rating: '+average_rating+'</span><span class="num">'+"Number of bathrooms: "+num_bathrooms+'</span></div>';
 				for(i = 0; i < baths_of_building.length; i++) {
 					htmlbrooms += '<a href="#"><div class="bathrooms"><p class="bathroom">'+baths_of_building[i].Name+'</p></div></a>';
 				}
@@ -94,9 +94,9 @@
 				document.getElementById("back_arrow").style.left = "10px";
 				document.getElementById("drop_Menu").style.left = "0px";
 				document.getElementById("building").style.left = "80px";
-				document.getElementById("left_sidebar").style.left = "0px";
-				document.getElementById("left_top").style.left = "0px";
-				document.getElementById("left_title").style.left = "70px";
+				document.getElementById("left_sidebar").style.width = "79px";
+				document.getElementById("left_top").style.width = "500px";
+				document.getElementById("left_title").style.width = "500px";
 				document.getElementById("left_main").style.left = "0px";
 			});
 			return marker;
@@ -106,9 +106,9 @@
 		// decreases the left sidebar
 		function decreaseLeft() {
 			  document.getElementById("left_bar").style.width = "0px";
-			  document.getElementById("left_sidebar").style.left = "-500px";
-			  document.getElementById("left_top").style.left = "-500px";
-			  document.getElementById("left_title").style.left = "-500px";
+			  document.getElementById("left_sidebar").style.width = "0px";
+			  document.getElementById("left_top").style.width = "0px";
+			  document.getElementById("left_title").style.width = "0px";
 			  document.getElementById("left_main").style.left = "-500px";
 			  document.getElementById("left_main").innerHTML = "";
 			  document.getElementById("building").style.left = "-500px";
