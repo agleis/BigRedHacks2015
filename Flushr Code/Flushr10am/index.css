@@ -62,7 +62,7 @@ body {
 	clear: left;
 }
 
-#left_sidebar {
+#left_bar {
 	background-color: white;
 
 	position: absolute;
@@ -155,4 +155,87 @@ button{
 	outline: 0;
 	background: none;
 	border: 1px;
+}
+
+#left_sidebar {
+	width: 80px;
+	height: 120px;
+	
+	-webkit-transition: -webkit-transform 400ms ease;
+	-moz-transition: -moz-transform 400ms ease;
+	-o-transition: -o-transform 400ms ease;
+	transition: transform 400ms ease;
+	
+	-webkit-transition-property: all;
+}
+
+#left_top {
+
+}
+
+#left_main {
+
+}
+
+#left-title {
+
+}
+
+#building {
+	position: absolute;
+	top: 0px;
+	left: 80px;
+	
+	width: 420px;
+	height: 100px;
+	
+	margin-top: 0px;
+	
+	font-family: sans-serif;
+	
+	text-align: center;
+	color: #404040;
+	
+	-webkit-transition: -webkit-transform 400ms ease;
+	-moz-transition: -moz-transform 400ms ease;
+	-o-transition: -o-transform 400ms ease;
+	transition: transform 400ms ease;
+	
+	-webkit-transition-property: all;
+}
+
+.buildingname {
+	margin-top: 12px;
+	font-size: 32px;
+}
+
+.average {
+	font-size: 16px;
+}
+
+.num {
+	font-size: 16px;
+}
+
+.bathrooms {
+	top: 0px;
+	left: 0px;
+	
+	-webkit-transition: -webkit-transform 400ms ease;
+	-moz-transition: -moz-transform 400ms ease;
+	-o-transition: -o-transform 400ms ease;
+	transition: transform 400ms ease;
+	
+	-webkit-transition-property: all;
+}
+
+.bathroom {
+	top: 5px;
+	
+	-webkit-transition: -webkit-transform 400ms ease;
+	-moz-transition: -moz-transform 400ms ease;
+	-o-transition: -o-transform 400ms ease;
+	transition: transform 400ms ease;
+	
+	-webkit-transition-property: all;
 }
